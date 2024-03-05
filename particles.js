@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
     canvas.height = window.innerHeight;
 
     // Set background color
-    ctx.fillStyle = '#0c1c44'; // Set the color to #0c1c44
+    ctx.fillStyle = '#ffffff'; // Set the color to #0c1c44
     ctx.fillRect(0, 0, canvas.width, canvas.height); // Fill the canvas with the new color
 
     // Create particles array
@@ -69,29 +69,33 @@ class Particle {
     // Create particle array
     function init() {
         particlesArray = [];
-        let numberOfParticles = (canvas.height * canvas.width) / 9000;
+        let numberOfParticles = (canvas.height * canvas.width) / 19000;
         for(let i = 0; i < numberOfParticles; i++) {
             let size = (Math.random() * 300) + 1;
             let x = (Math.random() * ((innerWidth - size * 2) - (size * 2)) + size * 2);
             let y = (Math.random() * ((innerHeight - size * 2) - (size * 2)) + size * 2);
             let directionX = (Math.random() * 5) - 2.5;
             let directionY = (Math.random() * 5) - 2.5;
-            let color = '#f2b330';
+            let color = '#ffffff';
 
             particlesArray.push(new Particle(x, y, directionX, directionY, size, color));
         }
     }
 
-    // Animation loop
-    function animate() {
-        requestAnimationFrame(animate);
-        ctx.fillStyle = '#0c1c44';
-        ctx.fillRect(0, 0, innerWidth, innerHeight);
+// Animation loop
+function animate() {
+    requestAnimationFrame(animate);
+    // Instead of clearing the canvas, draw a semi-transparent rectangle over the entire canvas
+    // This will give the effect of a tail or tracer because the previous positions of the particles
+    // will fade out slowly.
+    ctx.fillStyle = 'rgba(12, 28, 68, 0.2)'; // Adjust the last value to control the trail length
+    ctx.fillRect(0, 0, innerWidth, innerHeight);
 
-        for(let i = 0; i < particlesArray.length; i++) {
-            particlesArray[i].update();
-        }
+    for(let i = 0; i < particlesArray.length; i++) {
+        particlesArray[i].update();
     }
+}
+
 
     // Resize event
     window.addEventListener('resize', 
