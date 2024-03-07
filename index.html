@@ -1,9 +1,15 @@
 <!DOCTYPE html>
+<!-- 
+	Author Name: 	Vic Gauthreaux
+	File Name: 		  index.html
+	Date: 			    01/01/2059
+  Project:        Just playing around with JS/HTML/CSS to make matric effect with image fading onto screen after a few seconds
+ -->
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Matrix Effect with Centered Image Fade-In</title>
+<title>Coding The Coast</title>
 <style>
   body, html {
     height: 100%;
@@ -27,7 +33,7 @@
     transition: opacity 2s ease-in-out; /* Adjusts the speed of the fade-in */
     max-width: 50%; /* Adjust the size of the image */
     max-height: 50%;
-    z-index: 2; /* Make sure the image is above the canvas */
+    z-index: 2; /* Make sure the image is above (in front of) the canvas */
     position: relative;
   }
 </style>
@@ -46,7 +52,8 @@
   c.height = window.innerHeight;
   c.width = window.innerWidth;
 
-  //var matrixChars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ123456789@#$%^&*()*&^%+-/~{[|`]}';
+  //below is the default and line-56 changes to make it more "Gulf Coast" pretty
+  //var matrixChars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ123456789@#$%^&*()*&^%+-/~{[|`]}'; 
   var matrixChars = 'MGC3mgc';
   matrixChars = matrixChars.split('');
 
@@ -57,10 +64,10 @@
     drops[x] = 1; 
 
   function drawMatrixRain() {
-    ctx.fillStyle = 'rgba(12, 28, 68, 0.05)'; // Change background color to semi-transparent blue
+    ctx.fillStyle = 'rgba(12, 28, 68, 0.05)'; // Change background color to semi-transparent blue (first 3 numbers are color / last number is opacity)
     ctx.fillRect(0, 0, c.width, c.height);
     
-    ctx.fillStyle = '#f2b330'; // Change text color to red
+    ctx.fillStyle = '#f2b330'; // Change text color to college orange
     ctx.font = font_size + 'px arial';
     for(var i = 0; i < drops.length; i++)
     {
@@ -74,12 +81,12 @@
     }
   }
 
-  setInterval(drawMatrixRain, 69);
+  setInterval(drawMatrixRain, 69); //speed of matrix scroll
 
   window.addEventListener('resize', function(){
     c.height = window.innerHeight;
     c.width = window.innerWidth;
-    columns = c.width/font_size;
+    columns = c.width/font_size; 
     drops = [];
     for(var x = 0; x < columns; x++)
       drops[x] = 1;
