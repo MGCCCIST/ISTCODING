@@ -28,78 +28,96 @@
     height: 100%;
     z-index: 1;
   }
-  #fadeImage {
+  .fadeImage {
     opacity: 0;
-    transition: opacity 2s ease-in-out; /* Adjusts the speed of the fade-in */
-    max-width: 50%; /* Adjust the size of the image */
+    transition: opacity 2s ease-in-out, transform 2s ease-in-out;
+    max-width: 50%;
     max-height: 50%;
-    z-index: 2; /* Make sure the image is above (in front of) the canvas */
-    position: relative;
+    z-index: 2;
+    position: absolute;
   }
 </style>
 </head>
 <body>
 
 <canvas id="matrixCanvas"></canvas>
-<img id="fadeImage" src="banr.png" alt="Fading Image" onload="fadeImageIn()">
+
+<!-- Multiple images -->
+<img class="fadeImage" src="picx/cloud.png" alt="Image 1">
+<img class="fadeImage" src="picx/codingbanr.png" alt="Image 2">
+<img class="fadeImage" src="picx/networking.png" alt="Image 3">
+<img class="fadeImage" src="picx/cyber.png" alt="Image 4">
+<img class="fadeImage" src="picx/data.png" alt="Image 5">
+<img class="fadeImage" src="picx/ITspecialist.png" alt="Image 6">
+<img class="fadeImage" src="picx/prog.png" alt="Image 7">
 
 <script>
-  // Insert the Matrix effect script that targets 'matrixCanvas' here
+  // Matrix Effect
   var c = document.querySelector('canvas');
   var ctx = c.getContext('2d');
 
-  // Make the canvas full screen
   c.height = window.innerHeight;
   c.width = window.innerWidth;
 
-  //below is the default and line-56 changes to make it more "Gulf Coast" pretty
-  //var matrixChars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ123456789@#$%^&*()*&^%+-/~{[|`]}'; 
-  var matrixChars = 'MGC3mgc';
-  matrixChars = matrixChars.split('');
-
+  var matrixChars = 'MGC3mgc'.split('');
   var font_size = 16;
-  var columns = c.width/font_size;
+  var columns = c.width / font_size;
   var drops = [];
-  for(var x = 0; x < columns; x++)
-    drops[x] = 1; 
+
+  for (var x = 0; x < columns; x++) drops[x] = 1;
 
   function drawMatrixRain() {
-    ctx.fillStyle = 'rgba(12, 28, 68, 0.05)'; // Change background color to semi-transparent blue (first 3 numbers are color / last number is opacity)
+    ctx.fillStyle = 'rgba(12, 28, 68, 0.05)';
     ctx.fillRect(0, 0, c.width, c.height);
-    
-    ctx.fillStyle = '#f2b330'; // Change text color to college orange
+
+    ctx.fillStyle = '#f2b330';
     ctx.font = font_size + 'px arial';
-    for(var i = 0; i < drops.length; i++)
-    {
-      var text = matrixChars[Math.floor(Math.random()*matrixChars.length)];
-      ctx.fillText(text, i*font_size, drops[i]*font_size);
-      
-      if(drops[i]*font_size > c.height && Math.random() > 0.975)
-        drops[i] = 0;
-      
+
+    for (var i = 0; i < drops.length; i++) {
+      var text = matrixChars[Math.floor(Math.random() * matrixChars.length)];
+      ctx.fillText(text, i * font_size, drops[i] * font_size);
+
+      if (drops[i] * font_size > c.height && Math.random() > 0.975) drops[i] = 0;
+
       drops[i]++;
     }
   }
 
-  setInterval(drawMatrixRain, 69); //speed of matrix scroll
+  setInterval(drawMatrixRain, 69);
 
-  window.addEventListener('resize', function(){
+  window.addEventListener('resize', function () {
     c.height = window.innerHeight;
     c.width = window.innerWidth;
-    columns = c.width/font_size; 
+    columns = c.width / font_size;
     drops = [];
-    for(var x = 0; x < columns; x++)
-      drops[x] = 1;
+    for (var x = 0; x < columns; x++) drops[x] = 1;
   });
 
+  // Image Rotation Logic
+  const images = document.querySelectorAll('.fadeImage');
+  let currentIndex = 0;
 
-  function fadeImageIn() {
-    // Fade in the image after a delay
+  function rotateImages() {
+    images.forEach((img, idx) => {
+      img.style.opacity = '0';
+      img.style.transform = 'rotate(0deg)';
+    });
+
+    const currentImage = images[currentIndex];
+    currentImage.style.opacity = '1';
+    
+
     setTimeout(() => {
-      document.getElementById('fadeImage').style.opacity = 1;
-    }, 7000); // Delay in milliseconds
+      currentImage.style.opacity = '0';
+      currentIndex = (currentIndex + 1) % images.length;
+      setTimeout(rotateImages, 1500); // Delay before showing next image
+    }, 5000); // Display each image for 5 seconds
   }
+
+  // Start rotation after initial delay
+  setTimeout(rotateImages, 3000);
 </script>
 
 </body>
 </html>
+
